@@ -195,8 +195,7 @@ const Dashboard = () => {
                                 </div>
                             );
                         })}
-                        );
-                        })}
+
                     </AnimatePresence>
                 </div >
             )}
