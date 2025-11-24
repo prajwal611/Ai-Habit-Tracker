@@ -4,10 +4,12 @@ import AuthContext from '../context/AuthContext';
 import { Check, Trash2, Flame, Target, CheckCircle2 } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { motion, AnimatePresence } from 'framer-motion';
+import VideoRecommendations from '../components/VideoRecommendations';
 
 const Dashboard = () => {
     const [habits, setHabits] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [expandedHabitId, setExpandedHabitId] = useState(null);
     const { user, updateUserStats } = useContext(AuthContext);
 
     useEffect(() => {
@@ -125,57 +127,80 @@ const Dashboard = () => {
                         {habits.map(habit => {
                             const isCompleted = habit.completedDates.some(d => d.split('T')[0] === new Date().toISOString().split('T')[0]);
                             return (
-                                <motion.div
-                                    key={habit._id}
-                                    layout
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, height: 0 }}
-                                    className="flex items-center justify-between p-4 bg-base-100 rounded-xl shadow-sm border border-base-200 hover:shadow-md transition-shadow"
-                                >
-                                    <div className="flex items-center gap-4">
-                                        <button
-                                            onClick={() => handleToggleHabit(habit._id)}
-                                            className={`btn btn-circle btn-sm ${isCompleted ? 'btn-success text-white' : 'btn-outline bg-base-100'}`}
-                                        >
-                                            <Check size={16} />
-                                        </button>
-                                        <div>
-                                            <h3 className={`font-semibold text-lg ${isCompleted ? 'line-through text-base-content/50' : ''}`}>
-                                                {habit.name}
-                                            </h3>
-                                            <div className="flex gap-2 mt-1">
-                                                <span className="badge badge-ghost badge-xs">{habit.category}</span>
-                                                <span className={`badge badge-xs ${habit.difficulty === 'Hard' ? 'badge-error text-white' :
+                                <div key={habit._id}>
+                                    <motion.div
+                                        layout
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        className="flex items-center justify-between p-4 bg-base-100 rounded-xl shadow-sm border border-base-200 hover:shadow-md transition-shadow relative z-10"
+                                    >
+                                        <div className="flex items-center gap-4">
+                                            <button
+                                                onClick={() => handleToggleHabit(habit._id)}
+                                                className={`btn btn-circle btn-sm ${isCompleted ? 'btn-success text-white' : 'btn-outline bg-base-100'}`}
+                                            >
+                                                <Check size={16} />
+                                            </button>
+                                            <div>
+                                                <h3 className={`font-semibold text-lg ${isCompleted ? 'line-through text-base-content/50' : ''}`}>
+                                                    {habit.name}
+                                                </h3>
+                                                <div className="flex gap-2 mt-1">
+                                                    <span className="badge badge-ghost badge-xs">{habit.category}</span>
+                                                    <span className={`badge badge-xs ${habit.difficulty === 'Hard' ? 'badge-error text-white' :
                                                         habit.difficulty === 'Medium' ? 'badge-warning' : 'badge-success text-white'
-                                                    }`}>
-                                                    {habit.difficulty}
-                                                </span>
+                                                        }`}>
+                                                        {habit.difficulty}
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div className="flex items-center gap-4">
-                                        {habit.streak > 0 && (
-                                            <div className="flex items-center gap-1 text-orange-500 font-bold">
-                                                <Flame size={18} />
-                                                <span>{habit.streak}</span>
-                                            </div>
+                                        <div className="flex items-center gap-4">
+                                            {habit.streak > 0 && (
+                                                <div className="flex items-center gap-1 text-orange-500 font-bold">
+                                                    <Flame size={18} />
+                                                    <span>{habit.streak}</span>
+                                                </div>
+                                            )}
+                                            <button
+                                                onClick={() => setExpandedHabitId(expandedHabitId === habit._id ? null : habit._id)}
+                                                className={`btn btn-sm ${expandedHabitId === habit._id ? 'btn-primary' : 'btn-ghost'}`}
+                                            >
+                                                {expandedHabitId === habit._id ? 'Hide Videos' : 'Watch Videos'}
+                                            </button>
+                                            <button
+                                                onClick={() => handleDeleteHabit(habit._id)}
+                                                className="btn btn-ghost btn-sm text-error opacity-50 hover:opacity-100"
+                                            >
+                                                <Trash2 size={18} />
+                                            </button>
+                                        </div>
+                                    </motion.div>
+                                    <AnimatePresence>
+                                        {expandedHabitId === habit._id && (
+                                            <motion.div
+                                                initial={{ opacity: 0, height: 0 }}
+                                                animate={{ opacity: 1, height: 'auto' }}
+                                                exit={{ opacity: 0, height: 0 }}
+                                                className="overflow-hidden"
+                                            >
+                                                <div className="p-4 bg-base-200/50 rounded-b-xl -mt-2 mb-4 mx-2 border-x border-b border-base-200">
+                                                    <VideoRecommendations habitName={habit.name} />
+                                                </div>
+                                            </motion.div>
                                         )}
-                                        <button
-                                            onClick={() => handleDeleteHabit(habit._id)}
-                                            className="btn btn-ghost btn-sm text-error opacity-50 hover:opacity-100"
-                                        >
-                                            <Trash2 size={18} />
-                                        </button>
-                                    </div>
-                                </motion.div>
+                                    </AnimatePresence>
+                                </div>
                             );
                         })}
+                        );
+                        })}
                     </AnimatePresence>
-                </div>
+                </div >
             )}
-        </div>
+        </div >
     );
 };
 

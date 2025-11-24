@@ -32,6 +32,7 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/habits', require('./routes/habitRoutes'));
 app.use('/api/ai', require('./routes/aiRoutes'));
 app.use('/api/check-ins', require('./routes/checkInRoutes'));
+app.use('/api/youtube', require('./routes/youtubeRoutes'));
 
 // Error Handler
 app.use((err, req, res, next) => {
