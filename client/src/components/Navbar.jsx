@@ -41,7 +41,7 @@ const Navbar = () => {
           <>
             <ul className="menu menu-horizontal px-1 gap-6 hidden md:flex items-center text-sm">
               <li>
-                <Link to="/" className={`flex items-center gap-1 ${isActive('/')}`}>
+                <Link to="/dashboard" className={`flex items-center gap-1 ${isActive('/dashboard')}`}>
                   <LayoutDashboard size={18} /> Dashboard
                 </Link>
               </li>

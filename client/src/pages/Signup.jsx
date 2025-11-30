@@ -21,7 +21,7 @@ const Signup = () => {
         e.preventDefault();
         try {
             await signup(name, email, password);
-            navigate('/');
+            navigate('/dashboard');
         } catch (error) {
             toast.error(error.response?.data?.message || 'Signup failed');
         }

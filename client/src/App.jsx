@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
+import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
@@ -22,11 +23,12 @@ function App() {
                 <div className="min-h-screen bg-base-200 font-sans text-base-content">
                     <Navbar />
                     <Routes>
+                        <Route path="/" element={<LandingPage />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/signup" element={<Signup />} />
 
                         <Route element={<ProtectedRoute />}>
-                            <Route path="/" element={<Dashboard />} />
+                            <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/add-habit" element={<AddHabit />} />
                             <Route path="/check-in" element={<CheckIn />} />
                             <Route path="/calendar" element={<CalendarView />} />
