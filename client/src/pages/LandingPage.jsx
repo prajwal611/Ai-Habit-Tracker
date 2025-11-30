@@ -89,7 +89,7 @@ const LandingPage = () => {
                     <a className="link link-hover">Privacy</a>
                 </nav>
                 <aside>
-                    <p>Copyright © 2024 - All right reserved by AI Habit Tracker</p>
+                    <p>Copyright © 2025 - All right reserved by AI Habit Tracker</p>
                 </aside>
             </footer>
         </div>
